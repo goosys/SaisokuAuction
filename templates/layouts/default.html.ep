@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <%= stylesheet '/css/bootstrap.min.css' %>
+  <%= stylesheet '/css/style.css' %>
+  <%= javascript 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js' %>
+  <%= javascript '/js/script.js' %>
+</head>
+<body>
+<header class="navbar navbar-static-top">
+<div class="navbar-inner">
+<div class="container">
+<ul class="nav">
+  <li class="active">
+    <a href="#">Home</a>
+  </li>
+  <li><a href="#">Link</a></li>
+  <li><a href="#">Link</a></li>
+</ul>
+</div>
+</div>
+</header>
+
+<div class="container">
+<div class="row">
+<section class="span9">
+<%= content %>
+</section>
+
+<aside class="span3" id="sidebar">
+<%= include 'widgets/sidebar' %>
+</aside>
+</div>
+
+</div>
+</body>
+</html>

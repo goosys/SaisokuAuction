@@ -1,0 +1,11 @@
+{
+  DB =>{
+    dsn => 'dbi:mysql:saisoku_auction',
+    username => '*******',
+    password => '*******',
+    on_connect_do => [
+        'SET NAMES utf8',
+        'SET GLOBAL time_zone = \'+9:00\''
+    ]
+  }
+}

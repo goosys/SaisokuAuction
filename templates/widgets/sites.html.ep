@@ -1,0 +1,9 @@
+
+<section class="widget" id="widget-sites">
+<% my $sites = $self->widget_sites(); %>
+<ul>
+<% while( my $site= $sites->next ) { %>
+<li><a href="/<%= $site->basename %>"><%= $site->title %> (<%= $site->cnt %>)</a></li>
+<% } %>
+</ul>
+</section>

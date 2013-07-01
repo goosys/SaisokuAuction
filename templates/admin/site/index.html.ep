@@ -1,0 +1,32 @@
+% layout 'admin';
+% title 'Sites';
+<h2>Sites</h2>
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th style="width:3em;">id</th>
+      <th style="width:8em;">basename</th>
+      <th>title</th>
+      <th style="width:3em;">order</th>
+      <th style="width:7em;"><br/></th>
+    </tr>
+  </thead>
+  <tbody>
+<% while( my $row= $rows->next ) { %>
+    <tr>
+      <th><%= $row->id %></th>
+      <td><%= $row->basename %></td>
+      <td><%= $row->title %></td>
+      <td><%= $row->order_number %></td>
+      <td>
+        <a href="/<%= $row->basename %>"><i class="icon icon-eye-open"></i></a> |
+        <a href="/admin/category/<%= $row->id %>"><i class="icon icon-folder-open"></i></a> |
+        <a href="/admin/site/view/<%= $row->id %>"><i class="icon icon-wrench"></i></a> |
+        <a href="/admin/site/delete/<%= $row->id %>"><i class="icon icon-trash"></i></a>
+      </td>
+    </tr>
+<% } %>
+  </tbody>
+</table>
+
+<p><a href="/admin/site/create" class="btn btn-success">Create new Site</a></p>

@@ -1,0 +1,14 @@
+<article>
+<header>
+<h2><a href="<%= $p->{AuctionItemUrl} %>"><%= $p->{Title} %></a></h2>
+</header>
+<% if($p->{Img}{Image1}) { %><figure><img src="<%= $p->{Img}{Image1}{content} %>" width="<%= $p->{Img}{Image1}{width} %>" height="<%= $p->{Img}{Image1}{height} %>" alt="sumbnail"/></figure><% } %>
+<p class="price"><%= $p->{Price} %></p>
+<% if($p->{Initprice}) { %><p class="initprice"><%= $p->{Initprice} %></p><% } %>
+<ul class="seller">
+<li class="location"><%= $p->{Location} %></li>
+<li class="id"><a href="<%= $p->{Seller}{ItemListURL} %>"><%= $p->{Seller}{Id} %></a></li>
+<li class="rating">(<a href="<%= $p->{Seller}{RatingURL} %>"><%= $p->{Seller}{Rating}{Point} %></a>)</li>
+</ul>
+<p class="endtime"><%= $p->{EndTime} %></p>
+</article>

@@ -1,0 +1,4 @@
+
+<%= include 'widgets/sites' %>
+<%= include 'widgets/categories' %>
+<%= include 'widgets/monthly_entries' %>

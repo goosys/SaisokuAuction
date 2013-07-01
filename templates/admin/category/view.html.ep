@@ -1,0 +1,47 @@
+% layout 'admin';
+% title 'Category';
+<h2><% if($self->stash('action') eq 'create'){ %>Create <% }else{ %>Edit <% } %>Category</h2>
+<section class="entry">
+<form class="form-horizontal" action="/admin/category/create" method="post">
+
+  <div class="control-group">
+    <label class="control-label" for="inputBasename">Basename</label>
+    <div class="controls">
+      <input type="text" name="basename" id="inputBasename" placeholder="Basename" value="<%= $self->param('basename') || $row->basename %>">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="inputTitle">Title</label>
+    <div class="controls">
+      <input type="text" name="title" id="inputTitle" placeholder="Title" value="<%= $self->param('title') || $row->title %>">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="inputOrder">Order</label>
+    <div class="controls">
+      <% my $selected1 = $self->param('order_number') || $row->order_number; %>
+      <% my $selected2 = { $selected1 =>  ' selected="selected"' }; %>
+      <select name="order_number" id="inputOrder" class="input-mini" value="<%= $selected1 %>"><% for my $ii(1..100){ %><option<%= $selected2->{$ii} %>><%= $ii %></option><% } %></select>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <div class="controls">
+      <input type="hidden" name="id" value="<%= $row->id %>"/>
+      <input type="hidden" name="site_id" value="<%= $row->site_id %>"/>
+      <button type="submit"
+        <% if($self->stash('action') eq 'create'){ %> class="btn btn-success">Create
+        <% }else{ %> class="btn btn-warning">Update<% } %></button>
+    </div>
+  </div>
+  
+</form>
+</section>
+
+<ul class="pager">
+  <li class="previous">
+    <a href="/admin/category/<%= $row->site_id %>">&larr; Category List</a>
+  </li>
+</ul>

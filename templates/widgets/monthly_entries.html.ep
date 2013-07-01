@@ -1,0 +1,9 @@
+
+<section class="widget" id="widget-monthly_entries">
+<% my $itr = $self->widget_monthly_entries(); %>
+<ul>
+<% while( my $p= $itr->next ) { %>
+<li><a href="/archive/<%= $p->created_at_month %>"><%= $p->created_at_month %> (<%= $p->cnt %>)</a></li>
+<% } %>
+</ul>
+</section>
