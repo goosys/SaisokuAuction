@@ -1,9 +1,9 @@
 
 <section class="widget" id="widget-categories">
-<% my $sites = $self->widget_categories(); %>
+<% my $itr = $self->widget_categories(); %>
 <ul>
-<% while( my $site= $sites->next ) { %>
-<li><a href="/<%= $site->basename %>"><%= $site->title %> (<%= $site->cnt %>)</a></li>
+<% while( my $p= $itr->next ) { %>
+<li><a href="/<%= $p->site_basename %>/archive/<%= $p->basename %>"><%= $p->title %> (<%= $p->cnt %>)</a></li>
 <% } %>
 </ul>
 </section>

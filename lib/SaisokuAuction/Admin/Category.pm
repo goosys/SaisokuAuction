@@ -11,6 +11,7 @@ sub index {
     },
     {
       'limit' => 10,
+      'order_by' => [ 'order_number','id' ],
     }
   );
   

@@ -6,7 +6,8 @@
     <tr>
       <th style="width:3em;">id</th>
       <th style="width:8em;">basename</th>
-      <th>title</th>
+      <th>alert</th>
+      <th style="width:10em;">title</th>
       <th style="width:3em;">order</th>
       <th style="width:3em;"><br/></th>
     </tr>
@@ -16,6 +17,7 @@
     <tr>
       <th><%= $row->id %></th>
       <td><%= $row->basename %></td>
+      <td><%= $row->alert_subject %></td>
       <td><%= $row->title %></td>
       <td><%= $row->order_number %></td>
       <td>

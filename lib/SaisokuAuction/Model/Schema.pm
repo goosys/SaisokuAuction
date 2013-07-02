@@ -26,7 +26,7 @@ install_inflate_rule '^.+_at$' => callback {
     };
 };
 
-install_utf8_columns qw/title body/;
+install_utf8_columns qw/title body alert_subject keywords/;
 
 install_table 'entries' => schema {
     pk 'id';
@@ -35,7 +35,7 @@ install_table 'entries' => schema {
 
 install_table 'categories' => schema {
     pk 'id';
-    columns qw/id site_id basename title order_number created_at updated_at/;
+    columns qw/id site_id basename title alert_subject keywords order_number created_at updated_at/;
 };
 
 install_table 'sites' => schema {
@@ -46,6 +46,7 @@ install_table 'sites' => schema {
 1;
 
 __DATA__;
+-- Migration001
 DROP TABLE if EXISTS `entries`;
 CREATE TABLE `entries` (
        `id` int(11) unsigned auto_increment NOT NULL,
@@ -78,3 +79,8 @@ CREATE TABLE `sites` (
        `updated_at` timestamp NOT NULL,
        PRIMARY KEY (`id`)
 );
+-- Migration002
+ALTER TABLE categories ADD `alert_subject` tinytext AFTER `title`;
+ALTER TABLE categories ADD `keywords` tinytext AFTER `alert_subject`;
+update categories set alert_subject = title;
+update categories set title = null;

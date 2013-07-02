@@ -53,6 +53,7 @@ sub _categories {
     #select c.* ,count(*) from categories as c inner join entries as e on c.id=e.category_id group by c.id having site_id=8;
     {
       select => [
+        q!s.basename as site_basename!, 
         q!categories.*!, 
         q!count(*) as cnt!, 
       ],
@@ -67,9 +68,18 @@ sub _categories {
       },
     ],
   );
+  $rs->add_join(
+    categories => [
+      {
+        type  => 'inner',
+        table => 'sites as s',
+        condition => 'categories.site_id = s.id',
+      },
+    ],
+  );
   $rs->group({ column => 'categories.id' });
   $rs->add_having( 'site_id' => $site->id ) if( $site );
-  #$rs->order({ column => 'created_at desc' });
+  $rs->order({ column => 'order_number asc' },{ column => 'id asc' });
   
   return $rs->retrieve; #itr
 }

@@ -1,9 +1,10 @@
 
 <section class="widget" id="widget-monthly_entries">
 <% my $itr = $self->widget_monthly_entries(); %>
+<% my $basename = ( $self->stash('site') )? $self->stash('site')->basename .'/' : ''; %>
 <ul>
 <% while( my $p= $itr->next ) { %>
-<li><a href="/archive/<%= $p->created_at_month %>"><%= $p->created_at_month %> (<%= $p->cnt %>)</a></li>
+<li><a href="/<%= $basename %>archive/<%= $p->created_at_month %>"><%= $p->created_at_month %> (<%= $p->cnt %>)</a></li>
 <% } %>
 </ul>
 </section>

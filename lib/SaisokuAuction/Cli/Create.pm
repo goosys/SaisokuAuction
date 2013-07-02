@@ -48,7 +48,7 @@ sub _get_mails {
   my $mail_id;
   my $lines =[];
   foreach my $mail ( @$mails ){
-    my $title = $mail->title;
+    my $title = $mail->alert_subject;
     $mail_id  = $mail->id;
 
     Encode::_utf8_on($title);
