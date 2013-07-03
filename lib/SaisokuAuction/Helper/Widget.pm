@@ -79,7 +79,7 @@ sub _categories {
   );
   $rs->group({ column => 'categories.id' });
   $rs->add_having( 'site_id' => $site->id ) if( $site );
-  $rs->order({ column => 'order_number asc' },{ column => 'id asc' });
+  $rs->order({ column => 's.order_number asc' }, { column => 'order_number asc' },{ column => 'id asc' });
   
   return $rs->retrieve; #itr
 }

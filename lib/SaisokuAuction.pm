@@ -40,14 +40,34 @@ sub startup {
   # Router
   my $r = $self->routes;
   {
-    my $f = { num => qr/\d*/ };
+    my $f = { num => qr/\d+/ };
   
-    $r->get('/')->to('top#index');
+    $r->get('/')->to('site#index');
     
     # 
-    $r->route('/:sitename/:page', page => $f->{num} )
+    $r->route('/:page', page => $f->{num} )
       ->via('GET')
-      ->to( controller => 'site', action=>'index', page => undef);
+      ->to( controller => 'site', action=>'index', page => 1 );
+    
+    # 
+    $r->route('/:sitename/:page', page => $f->{num}, sitename => qr/\D\w+/ )
+      ->via('GET')
+      ->to( controller => 'site', action=>'index', page => 1 );
+      
+    # 
+    $r->route('/:sitename/archive/:categoryname/:page', page => $f->{num}, categoryname => qr/\D\w+/ )
+      ->via('GET')
+      ->to( controller => 'site', action=>'index', page => 1, archive => 'category' );
+      
+    # 
+    $r->route('/:sitename/archive/:year/:month/:page',  page => $f->{num}, year => qr/\d{4}/, month => qr/\d{2}/  )
+      ->via('GET')
+      ->to( controller => 'site', action=>'index', page => 1, archive => 'monthly' );
+      
+    # 
+    $r->route('/archive/:year/:month/:page',  page => $f->{num}, year => qr/\d{4}/, month => qr/\d{2}/  )
+      ->via('GET')
+      ->to( controller => 'site', action=>'index', page => 1, archive => 'monthly' );
     
     #
     $r->route('/admin/:controller/:id', id => $f->{num})

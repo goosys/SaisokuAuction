@@ -23,7 +23,7 @@ $(document).ready(function(){
     $(this).html( rem ).attr('title',tm.toString());
   });
   
-  $('article:gt(8)','.entry').css('display','none');
+  $('article:gt(7)','.entry').css('display','none');
 
 });
 

@@ -7,3 +7,14 @@
 <footer></footer>
 </section>
 <% } %>
+
+<% if( my $ul = $self->pager() ){ %>
+<% splice @$ul, 20; %> 
+<div class="pagination pagination-centered">
+<ul>
+<% foreach my $li( @$ul ) { %>
+<li class="<%= qq(active) if($li->{current})%>"><a href="<%= url_for(page => $li->{page}) %>"><%= $li->{page} %></a></li>
+<% } %>
+</ul>
+</div>
+<% } %>
