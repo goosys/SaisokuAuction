@@ -3,5 +3,5 @@
 CURDIR=`dirname $0`
 cd $CURDIR
 cd ../
-/usr/local/bin/starman script/saisoku_auction -R ./lib -R ./conf --port=8095 --pid /tmp/saisoku_auction.pid 
+/usr/local/bin/starman script/saisoku_auction -R ./lib -R ./conf -R ./templates --port=8095 --pid /tmp/saisoku_auction.pid 
 

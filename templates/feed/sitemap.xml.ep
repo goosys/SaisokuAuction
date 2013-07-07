@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc><%= $self->app->conf_website->{url} %></loc>
+<lastmod><%= $latest->created_at %>-09:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.2</priority>
+</url>
+
+<% while( my $category= $categories->next ) { %>
+<url>
+<loc><%= $self->app->conf_website->{url} %><%= $category->site_basename %>/archive/<%= $category->category_basename %></loc>
+<lastmod><%= $category->last_update_at %>-09:00</lastmod>
+<changefreq>always</changefreq>
+<priority>1.0</priority>
+</url>
+<% } %>
+
+<% while( my $site= $sites->next ) { %>
+<url>
+<loc><%= $self->app->conf_website->{url} %><%= $site->basename %></loc>
+<lastmod><%= $site->last_update_at %>-09:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.8</priority>
+</url>
+<% } %>
+
+</urlset>

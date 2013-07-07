@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+xmlns:admin="http://webns.net/mvcb/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:atom="http://www.w3.org/2005/Atom">
+
+<channel>
+<title><%= $website->{"title"} %></title>
+<link><%= $website->{"url"} %>rss.rdf</link>
+<description><%= $website->{"description"} %></description>
+<dc:language>ja</dc:language>
+<dc:date><%= $latest->created_at %>-09:00</dc:date>
+<atom:link href="<%= $website->{"url"} %><% if($self->stash('site')) { %><%= $self->stash('site')->basename %>/<% } %>rss.rdf" rel="self" type="application/rss+xml" />
+
+
+<% while( my $entry= $entries->next ) { %>
+<item>
+<title><%= $entry->title %></title>
+<link><%= $website->{"url"} %><%= $entry->site_basename %>/<%= $entry->created_at->epoch %></link>
+<dc:subject><%= $entry->site_basename %></dc:subject>
+<dc:date><%= $entry->created_at %>-09:00</dc:date>
+<guid isPermaLink="true"><%= $website->{"url"} %><%= $entry->site_basename %>/<%= $entry->created_at->epoch %></guid>
+</item>
+<% } %>
+
+</channel>
+</rss>

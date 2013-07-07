@@ -20,7 +20,12 @@ sub startup {
       'Config',
       { file => $self->app->home->rel_file('conf/db.conf') }
   );
+  my $config_website = $self->plugin(
+      'Config',
+      { file => $self->app->home->rel_file('conf/website.conf') }
+  );
   $self->attr( conf_api => sub { $config } );
+  $self->attr( conf_website => sub { $config_website->{Website} } );
   $self->attr( model => sub { SaisokuAuction::Model->new( $config_db->{DB} ) });
   
   #Hook
@@ -37,6 +42,10 @@ sub startup {
     });
   }
   
+  # Formats
+  $self->types->type(rdf => 'text/xml; charset=utf-8');
+  $self->types->type(xml => 'text/xml; charset=utf-8');
+  
   # Router
   my $r = $self->routes;
   {
@@ -45,9 +54,19 @@ sub startup {
     $r->get('/')->to('site#index');
     
     # 
+    $r->route('/sitemap', format=>'xml' )
+      ->via('GET')
+      ->to( controller => 'feed', action=>'sitemap' );
+    
+    # 
     $r->route('/:page', page => $f->{num} )
       ->via('GET')
       ->to( controller => 'site', action=>'index', page => 1 );
+    
+    # 
+    $r->route('/:sitename/:timestamp', timestamp => qr/\d{10}/ )
+      ->via('GET')
+      ->to( controller => 'site', action=>'entry' );
     
     # 
     $r->route('/:sitename/:page', page => $f->{num}, sitename => qr/\D\w+/ )
@@ -68,6 +87,16 @@ sub startup {
     $r->route('/archive/:year/:month/:page',  page => $f->{num}, year => qr/\d{4}/, month => qr/\d{2}/  )
       ->via('GET')
       ->to( controller => 'site', action=>'index', page => 1, archive => 'monthly' );
+    
+    # 
+    $r->route('/:sitename/rss', format=>'rdf', sitename => qr/\D\w+/ )
+      ->via('GET')
+      ->to( controller => 'feed', action=>'rss' );
+      
+    # 
+    $r->route('/:sitename/rss/:categoryname', sitename => qr/\D\w+/, categoryname => qr/\D\w+/ )
+      ->via('GET')
+      ->to( controller => 'feed', action=>'rss', archive => 'category' );
     
     #
     $r->route('/admin/:controller/:id', id => $f->{num})

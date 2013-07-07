@@ -1,8 +1,8 @@
 % layout 'default';
-% title 'Welcome';
+% title '';
 <% while( my $entry= $entries->next ) { %>
 <section class="entry">
-<header><h1><%= $entry->title %></h1></header>
+<header><h1><a href="/<%= $entry->site_basename %>/<%= $entry->created_at->epoch %>"><%= $entry->title %></h1></a></header>
 <%= Mojo::ByteStream->new($entry->body) %>
 <footer></footer>
 </section>

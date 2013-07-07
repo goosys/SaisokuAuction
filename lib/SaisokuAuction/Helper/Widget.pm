@@ -85,7 +85,7 @@ sub _categories {
 }
 
 sub _monthly_entries {
-  my ($self, $app) = @_;
+  my ($self, $app, $ops) = @_;
   my $category_ids = [];
   
   if( my $site = $self->stash('site') ){
@@ -107,6 +107,7 @@ sub _monthly_entries {
   $rs->add_where( 'category_id' => {'IN' => $category_ids} ) if( @$category_ids );
   $rs->group({ column => 'created_at_month' });
   $rs->order({ column => 'created_at_month desc' });
+  $rs->limit( $app->{'last_month'} ) if( $app->{'last_month'} );
   
   return $rs->retrieve; #itr
 }

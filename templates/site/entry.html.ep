@@ -1,0 +1,9 @@
+% layout 'default';
+% title '';
+<% if( $entry ) { %>
+<section class="entry">
+<header><h1><%= $entry->title %></h1></header>
+<%= Mojo::ByteStream->new($entry->body) %>
+<footer></footer>
+</section>
+<% } %>

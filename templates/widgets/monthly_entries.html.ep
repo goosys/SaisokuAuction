@@ -1,6 +1,6 @@
 
 <section class="widget" id="widget-monthly_entries">
-<% my $itr = $self->widget_monthly_entries(); %>
+<% my $itr = $self->widget_monthly_entries({last_month=>6}); %>
 <% my $basename = ( $self->stash('site') )? $self->stash('site')->basename .'/' : ''; %>
 <ul>
 <% while( my $p= $itr->next ) { %>
