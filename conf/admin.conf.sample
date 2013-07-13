@@ -1,0 +1,5 @@
+{
+  email => 'sample@sample.co.jp',
+  password => 'sample',
+  secret => 'abcdefg',
+}

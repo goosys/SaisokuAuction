@@ -7,7 +7,7 @@ use SaisokuAuction::Model;
 sub startup {
   my $self = shift;
 
-  # Documentation browser under "/perldoc"
+  # Load Plugins
   $self->plugin('PODRenderer');
   $self->plugin('SaisokuAuction::Helper::Widget');
 
@@ -28,6 +28,27 @@ sub startup {
   $self->attr( conf_website => sub { $config_website->{Website} } );
   $self->attr( model => sub { SaisokuAuction::Model->new( $config_db->{DB} ) });
   
+  # Load Auth Plugin
+  $self->plugin(
+    'authentication' => {
+      'autoload_user' => 1,
+      'load_user'     => sub { 
+        my ($app, $uid) = @_;
+        return 'admin' if( $uid eq 'admin' ); 
+        return undef;
+      },
+      'validate_user' => sub { 
+        my ($app, $email, $password, $param) = @_;
+        my $config_admin = $self->app->plugin(
+            'Config',
+            { file => $self->app->home->rel_file('conf/admin.conf') }
+        );
+        return 'admin' if($email eq $config_admin->{'email'} && $password eq $config_admin->{'password'});
+        return undef; 
+      },
+    }
+  );
+
   #Hook
   {
     $self->app->hook(after_render => sub {
@@ -53,10 +74,26 @@ sub startup {
   
     $r->get('/')->to('site#index');
     
+    #
+    my $admin = $r->bridge('/admin', id => $f->{num})
+      ->over(authenticated => 1)
+      ->via('GET')
+      ->to( controller=>'site', action => 'index', id => undef, namespace => 'SaisokuAuction::Admin');
+      
     # 
     $r->route('/sitemap', format=>'xml' )
       ->via('GET')
       ->to( controller => 'feed', action=>'sitemap' );
+    
+    # 
+    $r->route('/login/:action')
+      ->via('GET')
+      ->to( controller => 'login', action=>'index' );
+    
+    # 
+    $r->route('/login/login')
+      ->via('POST')
+      ->to( controller => 'login', action=>'login' );
     
     # 
     $r->route('/:page', page => $f->{num} )
@@ -99,25 +136,29 @@ sub startup {
       ->to( controller => 'feed', action=>'rss', archive => 'category' );
     
     #
-    $r->route('/admin/:controller/:id', id => $f->{num})
+    $admin->route('/:controller/:id', id => $f->{num})
+      ->via('GET')
+      ->to( controller=>'site', action => 'index', id => undef, namespace => 'SaisokuAuction::Admin');
+    
+    #
+    $admin->route('/:controller/:id', id => $f->{num})
       ->via('GET')
       ->to( controller=>'site', action => 'index', id => undef, namespace => 'SaisokuAuction::Admin');
       
     #
-    $r->route('/admin/:controller/create/:parent_id', id => $f->{num})
+    $admin->route('/:controller/create/:parent_id', id => $f->{num})
       ->via('GET')
       ->to( controller=>'site', action => 'create', parent_id => undef, namespace => 'SaisokuAuction::Admin');
     
     #
-    $r->route('/admin/:controller/:action/:id', id => $f->{num})
+    $admin->route('/:controller/:action/:id', id => $f->{num})
       ->via('GET')
       ->to( controller=>'site', action => 'index', id => undef, namespace => 'SaisokuAuction::Admin');
     
     #
-    $r->route('/admin/:controller/create')
+    $admin->route('/:controller/create')
       ->via('POST')
       ->to( action => 'create', namespace => 'SaisokuAuction::Admin');
-    
     
   }
 }
