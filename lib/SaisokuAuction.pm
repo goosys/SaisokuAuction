@@ -77,7 +77,6 @@ sub startup {
     #
     my $admin = $r->bridge('/admin', id => $f->{num})
       ->over(authenticated => 1)
-      ->via('GET')
       ->to( controller=>'site', action => 'index', id => undef, namespace => 'SaisokuAuction::Admin');
       
     # 
