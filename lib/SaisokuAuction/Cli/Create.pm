@@ -126,6 +126,7 @@ sub _create_entries {
   my $self     = shift;
   my $mail_id  = shift;
   my $products = shift;
+  if( !@$products ) { return; }
   
   use Mojolicious::Controller;
   my $ctrl = Mojolicious::Controller->new;
