@@ -27,6 +27,7 @@ sub create {
     site_id  => $self->param('site_id') || $self->param('parent_id'),
     basename => $self->param('basename') || '',
     title    => $self->param('title') || '',
+    alert_subject => $self->param('alert_subject') || '',
     order_number => $self->param('order_number') ||1,
   };
   
