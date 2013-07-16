@@ -21,7 +21,7 @@
   <div class="control-group">
     <label class="control-label" for="inputAlert">Alert</label>
     <div class="controls">
-      <input type="text" name="title" id="inputAlert" placeholder="Alert Subject" value="<%= $self->param('alert_subject') || $row->alert_subject %>">
+      <input type="text" name="alert_subject" id="inputAlert" placeholder="Alert Subject" value="<%= $self->param('alert_subject') || $row->alert_subject %>">
     </div>
   </div>
   
