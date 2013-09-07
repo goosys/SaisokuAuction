@@ -8,7 +8,7 @@ sub index {
     'sites',
     {},
     {
-      'limit' => 10,
+      'limit' => 50,
     }
   );
   

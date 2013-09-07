@@ -10,7 +10,7 @@ sub index {
       'site_id' => $self->param('id')
     },
     {
-      'limit' => 10,
+      'limit' => 50,
       'order_by' => [ 'order_number','id' ],
     }
   );
